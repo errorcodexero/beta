@@ -109,9 +109,9 @@ int Force_interface::relay(unsigned location,int value){
 	}else{
 		force.relay[location]=1;
 		Relay_output v;
-		if(value==0) v=RELAY_00;
-		if(value==1) v=RELAY_10;
-		if(value==3) v=RELAY_01;
+		if(value==0) v=Relay_output::_00;
+		if(value==1) v=Relay_output::_10;
+		if(value==3) v=Relay_output::_01;
 		force.values.relay[location]=v;
 	}
 	return 0;
@@ -138,9 +138,9 @@ int Force_interface::dio(unsigned loc,int value){
 	}else{
 		force.digital_io[loc]=1;
 		Digital_out v;
-		if(value==0) v=DIO_0;
-		if(value==1) v=DIO_1;
-		if(value==3) v=DIO_INPUT;
+		if(value==0) v=Digital_out::_0;
+		if(value==1) v=Digital_out::_1;
+		if(value==3) v=Digital_out::INPUT;
 		force.values.digital_io[loc]=v;
 	}
 	return 0;

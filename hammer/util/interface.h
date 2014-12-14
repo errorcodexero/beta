@@ -10,10 +10,10 @@ typedef double Time;
 typedef unsigned char Pwm_output;
 typedef bool Solenoid_output;
 
-typedef enum{DIO_INPUT,DIO_1,DIO_0} Digital_out;
+enum class Digital_out{INPUT,_1,_0};
 std::ostream& operator<<(std::ostream&,Digital_out);
 
-typedef enum{RELAY_00,RELAY_01,RELAY_10,RELAY_11} Relay_output;
+enum class Relay_output{_00,_01,_10,_11};
 std::ostream& operator<<(std::ostream&,Relay_output);
 
 struct Robot_outputs{

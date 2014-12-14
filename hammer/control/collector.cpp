@@ -5,48 +5,45 @@
 using namespace std;
 
 Collector_mode collecting(Collector_mode state,bool press_on, bool press_reverse, bool release_reverse) {
-	if (press_on && state == OFF) {
-		return ON;
+	if (press_on && state == Collector_mode::OFF) {
+		return Collector_mode::ON;
 	}
-	if (press_on && state == ON) {
-		return OFF;
+	if (press_on && state == Collector_mode::ON) {
+		return Collector_mode::OFF;
 	}
-	if ((press_reverse && state == OFF) || (press_reverse && state == ON)) {
-		return REVERSE;
+	if ((press_reverse && state == Collector_mode::OFF) || (press_reverse && state == Collector_mode::ON)) {
+		return Collector_mode::REVERSE;
 	}
-	if (release_reverse && state == REVERSE){
-		return OFF;
+	if (release_reverse && state == Collector_mode::REVERSE){
+		return Collector_mode::OFF;
 	}
-	if (state == OFF) {
-		return OFF;
+	if (state == Collector_mode::OFF) {
+		return Collector_mode::OFF;
 	}
-	if (state == ON) {
-		return ON;
+	if (state == Collector_mode::ON) {
+		return Collector_mode::ON;
 	}
-	if (state == REVERSE){
-		return REVERSE;
+	if (state == Collector_mode::REVERSE){
+		return Collector_mode::REVERSE;
 	}
 	throw 5;
 }
 
-
 ostream& operator << (ostream& o, Collector_mode c) {
-	if (c == ON) {
+	if (c == Collector_mode::ON) {
 		o << "ON";
 	}
-	else if (c == OFF) {
+	else if (c == Collector_mode::OFF) {
 		o << "OFF";
 	}
-	if (c == REVERSE) {
+	if (c == Collector_mode::REVERSE) {
 		o << "REVERSE";
 	}
-	
-	
 	return o;
 }
 
 Collector::Collector() {
-	mode=OFF;
+	mode=Collector_mode::OFF;
 }
 
 #ifdef COLLECTOR_TEST

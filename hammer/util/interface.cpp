@@ -8,10 +8,10 @@ using namespace std;
 
 std::ostream& operator<<(std::ostream& o,Digital_out a){
 	switch(a){
-		#define X(name) case name: return o<<""#name;
-		X(DIO_INPUT)
-		X(DIO_0)
-		X(DIO_1)
+		#define X(name) case Digital_out::name: return o<<""#name;
+		X(INPUT)
+		X(_0)
+		X(_1)
 		#undef X
 		default: return o<<"?";
 	}
@@ -19,13 +19,13 @@ std::ostream& operator<<(std::ostream& o,Digital_out a){
 
 void terse(ostream& o,Digital_out d){
 	switch(d){
-		case DIO_INPUT:
+		case Digital_out::INPUT:
 			o<<'i';
 			break;
-		case DIO_0:
+		case Digital_out::_0:
 			o<<'0';
 			break;
-		case DIO_1:
+		case Digital_out::_1:
 			o<<'1';
 			break;
 		default:
@@ -35,11 +35,11 @@ void terse(ostream& o,Digital_out d){
 
 std::ostream& operator<<(std::ostream& o,Relay_output a){
 	switch(a){
-		#define X(name) case name: return o<<""#name;
-		X(RELAY_00)
-		X(RELAY_01)
-		X(RELAY_10)
-		X(RELAY_11)
+		#define X(name) case Relay_output::name: return o<<""#name;
+		X(_00)
+		X(_01)
+		X(_10)
+		X(_11)
 		#undef X
 		default: return o<<"?";
 	}
@@ -47,16 +47,16 @@ std::ostream& operator<<(std::ostream& o,Relay_output a){
 
 void terse(ostream& o,Relay_output a){
 	switch(a){
-		case RELAY_00:
+		case Relay_output::_00:
 			o<<'0';
 			break;
-		case RELAY_01:
+		case Relay_output::_01:
 			o<<'R';
 			break;
-		case RELAY_10:
+		case Relay_output::_10:
 			o<<'F';
 			break;
-		case RELAY_11:
+		case Relay_output::_11:
 			o<<"+";
 			break;
 		default:
@@ -66,10 +66,10 @@ void terse(ostream& o,Relay_output a){
 
 vector<Relay_output> relay_outputs(){
 	vector<Relay_output> r;
-	r|=RELAY_00;
-	r|=RELAY_01;
-	r|=RELAY_10;
-	r|=RELAY_11;
+	r|=Relay_output::_00;
+	r|=Relay_output::_01;
+	r|=Relay_output::_10;
+	r|=Relay_output::_11;
 	return r;
 }
 
@@ -86,10 +86,10 @@ Robot_outputs::Robot_outputs(){
 		solenoid[i]=0;
 	}
 	for(unsigned i=0;i<RELAYS;i++){
-		relay[i]=RELAY_00;
+		relay[i]=Relay_output::_00;
 	}
 	for(unsigned i=0;i<DIGITAL_IOS;i++){
-		digital_io[i]=DIO_INPUT;
+		digital_io[i]=Digital_out::INPUT;
 	}
 }
 

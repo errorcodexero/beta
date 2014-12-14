@@ -10,16 +10,16 @@ using namespace std;
 vector< pair<Toplevel::Output,Time> > bist_steps(){
 	vector< pair<Toplevel::Output,Time> > r;
 	Toplevel::Output g;
-	g.collector=ON;
+	g.collector=Collector_mode::ON;
 	r|=make_pair(g,1.0);
 
-	g.collector=OFF;
+	g.collector=Collector_mode::OFF;
 	r|=make_pair(g,1.0);
 	
-	g.collector=REVERSE;
+	g.collector=Collector_mode::REVERSE;
 	r|=make_pair(g,1.0);
 
-	g.collector=OFF;
+	g.collector=Collector_mode::OFF;
 	r|=make_pair(g,1.0);
 
 	g.collector_tilt=Collector_tilt::OUTPUT_UP;

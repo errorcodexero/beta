@@ -8,7 +8,7 @@ using namespace std;
 
 namespace Toplevel{
 	Output::Output():
-		collector(OFF),
+		collector(Collector_mode::OFF),
 		collector_tilt(Collector_tilt::OUTPUT_UP),
 		injector(Injector::OUTPUT_DOWN),
 		injector_arms(Injector_arms::OUTPUT_CLOSE),
@@ -30,7 +30,7 @@ namespace Toplevel{
 	}
 
 	Subgoals::Subgoals():
-		collector(OFF),
+		collector(Collector_mode::OFF),
 		collector_tilt(Collector_tilt::GOAL_UP),
 		injector(Injector::WAIT),
 		injector_arms(Injector_arms::GOAL_X),

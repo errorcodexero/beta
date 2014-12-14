@@ -17,9 +17,9 @@ using namespace std;
 
 double convert_output(Collector_mode m){
 	switch(m){
-		case ON: return -1; //Actually collecting
-		case OFF: return 0;
-		case REVERSE: return 1; //Ejecting
+		case Collector_mode::ON: return -1; //Actually collecting
+		case Collector_mode::OFF: return 0;
+		case Collector_mode::REVERSE: return 1; //Ejecting
 		default: assert(0);
 	}
 }
@@ -36,7 +36,7 @@ Robot_outputs convert_output(Toplevel::Output a){
 	r.pwm[2]=pwm_convert(a.drive.c);
 	r.pwm[3]=convert_output(a.collector);
 	
-	r.relay[0]=(a.pump==Pump::OUTPUT_ON)?RELAY_10:RELAY_00;
+	r.relay[0]=(a.pump==Pump::OUTPUT_ON)?Relay_output::_10:Relay_output::_00;
 	
 	r.solenoid[0]=(a.collector_tilt==Collector_tilt::OUTPUT_DOWN);
 	r.solenoid[1]=(a.collector_tilt==Collector_tilt::OUTPUT_UP);
@@ -46,7 +46,7 @@ Robot_outputs convert_output(Toplevel::Output a){
 	r.solenoid[7]=(a.injector_arms!=Injector_arms::OUTPUT_CLOSE);
 
 	//pressure switch
-	r.digital_io[0]=DIO_INPUT;
+	r.digital_io[0]=Digital_out::INPUT;
 
 	//cerr<<a.shooter_wheels<<"\r\n";
 	r.jaguar[JAG_TOP_FEEDBACK]=a.shooter_wheels.top[Shooter_wheels::Output::FEEDBACK];
@@ -357,7 +357,7 @@ Robot_outputs Main::operator()(Robot_inputs in,ostream& cerr){
 	Toplevel::Output high_level_outputs=control(toplevel_status,subgoals_now);
 	high_level_outputs=panel_override(panel,high_level_outputs);
 	if(gunner_joystick.button[Gamepad_button::START]){
-		high_level_outputs.collector=REVERSE;
+		high_level_outputs.collector=Collector_mode::REVERSE;
 	}
 	Robot_outputs r=convert_output(high_level_outputs);
 	{
@@ -385,7 +385,7 @@ Robot_outputs Main::operator()(Robot_inputs in,ostream& cerr){
 	// Turn on camera light in autonomous mode (kForward):
 	light.update ( main_joystick.button[Gamepad_button::X] );
 	bool ledOn = in.robot_mode.autonomous || light.get();
-	r.relay[1] = r.relay[6] = (ledOn) ? RELAY_10 : RELAY_00;
+	r.relay[1] = r.relay[6] = (ledOn) ? Relay_output::_10 : Relay_output::_00;
 	
 
 	r=force(r);
@@ -410,11 +410,12 @@ Robot_outputs Main::operator()(Robot_inputs in,ostream& cerr){
 		static int i=0;
 		if(i==0){
 			stringstream ss;
-			ss<<in<<"\r\n"<<*this<<"\r\n";
-			ss<<panel<<"\r\n";
-			ss<<in.driver_station<<"\r\n";
-			ss<<"Field Relative?:"<<field_relative.get()<<"\n";
-			ss<<"Gyro ="<<in.orientation<<"\n";
+			ss<<in<<"\r\n"<<*this<<mode<<"\r\n";
+			ss<<r<<"\r\n"; 
+			//ss<<panel<<"\r\n";
+			//ss<<in.driver_station<<"\r\n";
+			//ss<<"Field Relative?:"<<field_relative.get()<<"\n";
+			//ss<<"Gyro ="<<in.orientation<<"\n";
 			cerr<<ss.str();//putting this all together at once in hope that it'll show up at closer to the same time.  
 			//cerr<<subgoals_now<<high_level_outputs<<"\n";
 		}

@@ -158,9 +158,9 @@ Maybe<Collector_mode> interpret_collector(double analog){
 	if(analog==4) analog=3;
 	switch(x){
 		case 0: return Maybe<Collector_mode>();
-		case 1: return Maybe<Collector_mode>(ON);
-		case 2: return Maybe<Collector_mode>(OFF);
-		case 3: return Maybe<Collector_mode>(REVERSE);
+		case 1: return Maybe<Collector_mode>(Collector_mode::ON);
+		case 2: return Maybe<Collector_mode>(Collector_mode::OFF);
+		case 3: return Maybe<Collector_mode>(Collector_mode::REVERSE);
 		default:
 			//may want to add error detection here.
 			return Maybe<Collector_mode>();
@@ -240,8 +240,8 @@ Panel interpret(Driver_station_input d){
 		if(x>1.65 && x<2) panel.ejector=Ejector::OUTPUT_UP;
 		if(x>2.7 && x<3.10) panel.collector_tilt=Collector_tilt::OUTPUT_UP;
 		if(x>2.35 && x<2.65) panel.collector_tilt=Collector_tilt::OUTPUT_DOWN;
-		if(x>1.35 && x<1.75) panel.collector=ON;
-		if(x>1.05 && x<1.35) panel.collector=REVERSE;
+		if(x>1.35 && x<1.75) panel.collector=Collector_mode::ON;
+		if(x>1.05 && x<1.35) panel.collector=Collector_mode::REVERSE;
 		if(x>.4 && x<1) panel.learn=1;
 		if(x>.2&&x<.4)panel.pidadjust=1;
 	}

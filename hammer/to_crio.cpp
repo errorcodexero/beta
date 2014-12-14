@@ -326,9 +326,9 @@ public:
 		if(i>=Robot_outputs::RELAYS) return 1;
 		if(!relay[i]) return 2;
 		relay[i]->Set([=](){
-			if(out==RELAY_00) return Relay::kOff;
-			if(out==RELAY_01) return Relay::kOn;
-			if(out==RELAY_10) return Relay::kForward;
+			if(out==Relay_output::_00) return Relay::kOff;
+			if(out==Relay_output::_01) return Relay::kOn;
+			if(out==Relay_output::_10) return Relay::kForward;
 			//Assuming RELAY_11
 			return Relay::kReverse;
 		}());

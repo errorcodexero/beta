@@ -4,7 +4,7 @@
 #include"../util/posedge_trigger.h"
 #include"../util/negedge_trigger.h"
 
-enum Collector_mode{ON, OFF, REVERSE};
+enum class Collector_mode{ON, OFF, REVERSE};
 
 std::ostream& operator << (std::ostream& o, Collector_mode c);
 

@@ -18,13 +18,13 @@ int DIO_control::set_channel(int i){
 
 int DIO_control::set(Digital_out d){
 	if(channel==-1) return 4;
-	if(d==DIO_INPUT) return set_mode(Mode::IN);
+	if(d==Digital_out::INPUT) return set_mode(Mode::IN);
 	{
 		int r=set_mode(Mode::OUT);
 		if(r) return r;
 	}
 	if(!out) return 1;
-	out->Set(d==DIO_1);
+	out->Set(d==Digital_out::_1);
 	return 0;
 }
 
