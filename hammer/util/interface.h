@@ -43,12 +43,13 @@ bool operator==(Robot_outputs,Robot_outputs);
 bool operator!=(Robot_outputs,Robot_outputs);
 std::ostream& operator<<(std::ostream& o,Robot_outputs);
 
+//limitation of FRC coms
+#define JOY_AXES 8
+#define JOY_BUTTONS 12
+
 struct Joystick_data{
-	static const unsigned AXES=4;//limitation of FRC coms
-	double axis[AXES];
-	
-	static const unsigned BUTTONS=12;//limitation of FRC coms
-	std::bitset<BUTTONS> button;
+	double axis[JOY_AXES];
+	std::bitset<JOY_BUTTONS> button;
 	
 	Joystick_data();
 

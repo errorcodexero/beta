@@ -155,7 +155,7 @@ ostream& operator<<(ostream& o,Robot_outputs a){
 }
 
 Joystick_data::Joystick_data(){
-	for(unsigned i=0;i<AXES;i++){
+	for(unsigned i=0;i<JOY_AXES;i++){
 		axis[i]=0;
 	}
 }
@@ -172,7 +172,7 @@ Maybe<Joystick_data> Joystick_data::parse(string const& s){
 		//cout<<"bs="<<v[1]<<"\n";
 		vector<string> b=split(v[2]);
 		//cout<<"list:"<<b.size()<<" "<<Joystick_data::BUTTONS<<"\n";
-		for(unsigned i=0;i<Joystick_data::BUTTONS;i++){
+		for(unsigned i=0;i<JOY_BUTTONS;i++){
 			if(i>=b.size()){
 				//cout<<"sdflkj\n";
 				return Maybe<Joystick_data>();
@@ -183,7 +183,7 @@ Maybe<Joystick_data> Joystick_data::parse(string const& s){
 	}
 	{
 		vector<string> ax=split(v[1]);
-		for(unsigned i=0;i<Joystick_data::AXES;i++){
+		for(unsigned i=0;i<JOY_AXES;i++){
 			if(i>ax.size()) return Maybe<Joystick_data>();
 			r.axis[i]=atof(ax[i]);
 		}
@@ -192,12 +192,12 @@ Maybe<Joystick_data> Joystick_data::parse(string const& s){
 }
 
 bool operator==(Joystick_data a,Joystick_data b){
-	for(unsigned i=0;i<Joystick_data::AXES;i++){
+	for(unsigned i=0;i<JOY_AXES;i++){
 		if(a.axis[i]!=b.axis[i]){
 			return 0;
 		}
 	}
-	for(unsigned i=0;i<Joystick_data::BUTTONS;i++){
+	for(unsigned i=0;i<JOY_BUTTONS;i++){
 		if(a.button[i]!=b.button[i]){
 			return 0;
 		}
@@ -212,11 +212,11 @@ bool operator!=(Joystick_data a,Joystick_data b){
 ostream& operator<<(ostream& o,Joystick_data a){
 	o<<"Joystick_data(";
 	o<<"axes:";
-	for(unsigned i=0;i<Joystick_data::AXES;i++){
+	for(unsigned i=0;i<JOY_AXES;i++){
 		o<<a.axis[i]<<" ";
 	}
 	o<<"buttons:";
-	for(unsigned i=0;i<Joystick_data::BUTTONS;i++){
+	for(unsigned i=0;i<JOY_BUTTONS;i++){
 		o<<a.button[i]<<" ";
 	}
 	return o<<")";

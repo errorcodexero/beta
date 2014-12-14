@@ -43,7 +43,7 @@ Robot_outputs convert_output(Toplevel::Output a){
 	r.solenoid[2]=r.solenoid[3]=(a.injector==Injector::OUTPUT_DOWN);
 	r.solenoid[4]=r.solenoid[5]=(a.injector==Injector::OUTPUT_UP);
 	r.solenoid[6]=(a.ejector==Ejector::OUTPUT_UP);
-	r.solenoid[7]=(a.injector_arms==Injector_arms::OUTPUT_CLOSE);
+	r.solenoid[7]=(a.injector_arms!=Injector_arms::OUTPUT_CLOSE);
 
 	//pressure switch
 	r.digital_io[0]=DIO_INPUT;
@@ -317,7 +317,7 @@ Robot_outputs Main::operator()(Robot_inputs in,ostream& cerr){
 	ball_collecter.update(main_joystick.button[5]);
 	bool tanks_full=(in.digital_io[0]==DI_1);
 
-	Panel panel=interpret(in.driver_station);	
+	Panel panel;//ignore since absent=interpret(in.driver_station);
 	Shooter_wheels::Calibration calib=wheel_calibration.update(panel.learn,panel.speed,panel.target,panel.pidselect,panel.pidadjust);
 	//Control_status::Control_status next(Control_status::Control_status status,Toplevel::Status part_status,Joystick_data j,bool autonomous_mode,Time since_switch){
 	Toplevel::Status toplevel_status=est.estimate();
@@ -410,7 +410,7 @@ Robot_outputs Main::operator()(Robot_inputs in,ostream& cerr){
 		static int i=0;
 		if(i==0){
 			stringstream ss;
-			ss<<in<<"\r\n";//<<*this<<"\r\n";
+			ss<<in<<"\r\n"<<*this<<"\r\n";
 			ss<<panel<<"\r\n";
 			ss<<in.driver_station<<"\r\n";
 			ss<<"Field Relative?:"<<field_relative.get()<<"\n";
@@ -418,7 +418,7 @@ Robot_outputs Main::operator()(Robot_inputs in,ostream& cerr){
 			cerr<<ss.str();//putting this all together at once in hope that it'll show up at closer to the same time.  
 			//cerr<<subgoals_now<<high_level_outputs<<"\n";
 		}
-		i=(i+1)%500;
+		i=(i+1)%100;
 	}
 	//cerr<<subgoals_now<<"\r\n";
 	//cerr<<toplevel_status<<"\r\n\r\n";

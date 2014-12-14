@@ -79,16 +79,23 @@ void SendWOL (void)
 Joystick_data read_joystick(DriverStation& ds,int port){
 	//I don't know what the DriverStation does when port is out of range.
 	Joystick_data r;
-	for(unsigned i=0;i<Joystick_data::AXES;i++){
-		//r.axis[i]=ds.GetStickAxis(port+1,i+1);
-		//cerr<<"Reading Port "<<port<<" Axis "<<i<<endl<<flush;
-		r.axis[i]=ds.GetStickAxis(port,i);
-		//cerr<<r.axis[i]<<endl<<flush;
+	{
+		auto lim=ds.GetStickAxisCount(port);
+		assert(lim>=0);
+		unsigned axes=std::min((unsigned)JOY_AXES,(unsigned)lim);
+		for(unsigned i=0;i<axes;i++){
+			//r.axis[i]=ds.GetStickAxis(port+1,i+1);
+			//cerr<<"Reading Port "<<port<<" Axis "<<i<<endl<<flush;
+			r.axis[i]=ds.GetStickAxis(port,i);
+			//cerr<<r.axis[i]<<endl<<flush;
+		}
 	}
-	
-	uint16_t buttons=ds.GetStickButtons(port);
-	for(unsigned i=0;i<Joystick_data::BUTTONS;i++){
-		if(buttons&(1<<i)) r.button[i]=1;
+	auto lim=ds.GetStickButtonCount(port);
+	assert(lim>=0);
+	const auto buttons=std::min((unsigned)JOY_BUTTONS,(unsigned)lim);
+	for(unsigned i=0;i<buttons;i++){
+		//if(buttons&(1<<i)) r.button[i]=1;
+		r.button[i]=ds.GetStickButton(port,i+1);
 	}
 	return r;
 }
@@ -310,7 +317,8 @@ public:
 	int set_pwm(unsigned i,Pwm_output p){
 		if(i>=Robot_outputs::PWMS) return 1;
 		if(!pwm[i]) return 2;
-		pwm[i]->SetRaw(p);//we're assuming that the values taken here are the same as given before
+		//pwm[i]->SetRaw(p);//we're assuming that the values taken here are the same as given before
+		pwm[i]->SetRaw(p-128);
 		return 0;
 	}
 
